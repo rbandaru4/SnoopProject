@@ -10,38 +10,6 @@ import java.time.OffsetDateTime;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Transaction {
-
-     @JsonProperty("transactionId")
-    private String transactionId;
-
-    @JsonProperty("amount")
-    private Double amount;
-
-    @JsonProperty("currency")
-    private String currency;
-
-    @JsonProperty("merchantName")
-    private String merchantName;
-
-    @JsonProperty("timestamp")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
-    private OffsetDateTime timestamp;
-
-    @JsonProperty("type")
-    private String type;
-
-    @JsonProperty("subType")
-    private String subType;
-
-    @JsonProperty("status")
-    private String status;
-
-    @JsonProperty("categoryId")
-    private Integer categoryId;
-
-    @JsonProperty("description")
-    private String description;
-    
     public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
     }
@@ -121,4 +89,35 @@ public class Transaction {
     public String getDescription() {
         return description;
     }
+
+    @JsonProperty("transactionId")
+    private String transactionId;
+
+    @JsonProperty("amount")
+    private Double amount;
+
+    @JsonProperty("currency")
+    private String currency;
+
+    @JsonProperty("merchantName")
+    private String merchantName;
+
+    @JsonProperty("timestamp")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private OffsetDateTime timestamp;
+
+    @JsonProperty("type")
+    private String type;
+
+    @JsonProperty("subType")
+    private String subType;
+
+    @JsonProperty("status")
+    private String status;
+
+    @JsonProperty("categoryId")
+    private Integer categoryId;
+
+    @JsonProperty("description")
+    private String description;
 }

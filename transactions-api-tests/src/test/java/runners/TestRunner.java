@@ -16,4 +16,8 @@ import org.junit.runner.RunWith;
         monochrome = true
 )
 public class TestRunner {
+        static {
+                // This will open the java.time package to Jackson
+                System.setProperty("--add-opens", "java.base/java.time=ALL-UNNAMED");
+        }
 }

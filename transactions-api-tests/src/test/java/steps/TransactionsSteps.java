@@ -1,5 +1,6 @@
 package steps;
 
+import config.TestConfig;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -24,7 +25,10 @@ public class TransactionsSteps {
 
     @Given("I set the customer ID to {string}")
     public void i_set_the_customer_id_to(String customerId) {
-        request = given().queryParam("customerId", customerId);
+        if (TestConfig.requestSpec == null) {
+            TestConfig.setup();
+        }
+        request = given().spec(TestConfig.requestSpec).queryParam("customerId", customerId);
     }
 
     @Given("I set the following query parameters:")
@@ -34,9 +38,15 @@ public class TransactionsSteps {
 
     @When("I send a GET request to the transactions endpoint")
     public void i_send_a_get_request_to_the_transactions_endpoint() {
-        response = request.when().get();
-        if (response.getStatusCode() == 200) {
-            transactions = Arrays.asList(response.getBody().as(Transaction[].class));
+        try {
+            response = request.when().get();
+            if (response.getStatusCode() == 200) {
+                transactions = Arrays.asList(response.getBody().as(Transaction[].class));
+            }
+        }catch (Exception e) {
+            System.err.println("Request failed: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
         }
     }
 
@@ -119,7 +129,8 @@ public class TransactionsSteps {
 
     @Then("the response should contain an error message {string}")
     public void the_response_should_contain_an_error_message(String expectedMessage) {
-        String actualMessage = response.getBody().asString();
+        // Parse response as a JSON string to remove outer quotes
+        String actualMessage = response.getBody().asString().replace("\"", "");
         Assertions.assertThat(actualMessage).isEqualTo(expectedMessage);
     }
 }
